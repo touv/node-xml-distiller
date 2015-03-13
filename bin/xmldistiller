@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+/* vim: set ft=javascript: */
+"use strict";
+
+var Distiller  = require(__dirname + '/..')
+  , fs = require('fs')
+  , CSV = require('csv-string')
+  ;
+
+var stream = Distiller.createStream();
+stream.on('data', function(data) {
+  process.stdout.write(CSV.stringify(data))
+});
+
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+process.stdin.pipe(stream);

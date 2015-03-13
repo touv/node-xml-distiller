@@ -1,0 +1,126 @@
+#!/usr/bin/env node
+/* vim: set ft=javascript: */
+"use strict";
+
+var/* coXML = require(__dirname + '/..')
+ , */
+ debug = function(){} 
+,  fs = require('fs')
+  , CSV = require('csv-string')
+  ;
+var xmlfile = require("path").join(process.cwd(), process.argv[2])
+var input = fs.createReadStream(xmlfile, { encoding: "utf8" })
+
+function print (c) {
+  if (!process.stdout.write(CSV.stringify(c))) {
+    input.pause();
+  }
+}
+process.stdout.on("drain", function () {
+  input.resume();
+})
+/*
+var stream = coXML.createStream();
+stream.on('data', function(data) {
+  print(CSV.stringify(data))
+});
+
+
+
+
+input.pipe(stream);
+*/
+var options;
+options = options || {};
+  options.specialChar = options.specialChar || '$';
+  var self = { saxStream: null };
+
+
+  var CC = {
+  "normal" : function () { return "/."; },
+  "newone" : function () { return "/<"; },
+  "inside" : function () { return "/="; },
+  "inline" : function () { return "/|"; },
+  "attr" : function () { return "/@"; },
+  "comment" : function () { return "/#"; },
+}
+
+function normalize (x) {
+  return x.replace(CC.newone(), CC.normal());
+}
+  var depth = 0, stack = [], open = false;
+
+  function cvalue(v) {
+    var val = [stack.join(''), v];
+    debug('cvalue', v, stack);
+    print(val);
+    stack = stack.map(normalize);
+  }
+
+
+
+  self.saxStream = require("sax").createStream(false, {lowercasetags:true, trim:true})
+  // self.saxStream = require("sax").createStream(true, {trim : true, xmlns : false, position: false})
+  self.saxStream.on("opentag", function (node) {
+    var oldname = stack[depth];
+    debug('opentag(1)', depth, stack, oldname);
+    stack = stack.slice(0, depth);
+    ++depth;
+    if (oldname && oldname.slice(2) === node.name) {
+      stack.push(oldname)
+    }
+    else {
+      var cc = open ? CC.inside() : CC.newone()
+      stack.push(cc + node.name);
+    }
+    debug('opentag(2)', depth, stack);
+    Object.keys(node.attributes).forEach(function(key) {
+      stack.push(CC.attr() + key);
+      cvalue(node.attributes[key]);
+      stack.pop();
+    });
+    // if (node.isSelfClosing === true) {
+      // --depth;
+    // }
+  });
+  self.saxStream.on("text", function (value) {
+    open = true;
+    cvalue(value);
+  });
+  self.saxStream.on("closetag", function (name) {
+    debug('closetag(1)', depth, stack);
+    --depth;
+    open = false;
+    debug('>>>>', stack[depth].slice(0, 2));
+    if (stack[depth].slice(0, 2) == CC.inside()) {
+      stack.pop();
+      stack[stack.length-1] = CC.inline() + stack[stack.length-1].slice(2)
+    }
+    else {
+      stack[depth] = CC.newone() + stack[depth].slice(2)
+    }
+    debug('closetag(2)', depth, stack);
+  });
+  self.saxStream.on("comment", function (value) {
+    print (['#', value]);
+  });
+  self.saxStream.on("opencdata", function (node) {
+  });
+  self.saxStream.on("cdata", function (value) {
+    cvalue(value);
+  });
+  self.saxStream.on("closecdata", function () {
+  });
+  self.saxStream.on("error", function (e) {
+    // an error happened.
+    console.error('error', e);
+    // clear the error
+    this._parser.error = null
+    this._parser.resume()
+  });
+
+
+
+  input.pipe(self.saxStream);
+
+

@@ -1,0 +1,35 @@
+{
+  "name": "xml-distiller",
+  "version": "0.0.0",
+  "author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
+  "contributors": [],
+  "description": "",
+  "keywords": [
+    "xml",
+    "parser",
+    "string",
+    "generator"
+  ],
+  "homepage": "http://github.com/touv/node-xml-distiller",
+  "scripts": {
+    "test": "./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha -- -R spec"
+  },
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/touv/node-xml-distiller.git"
+  },
+  "dependencies": {
+    "sax": "^0.6.1",
+    "csv-string": "^2.2.5"
+  },
+  "devDependencies": {
+    "mocha": ">=1.8.1",
+    "should": "^1.2.1",
+    "istanbul": "^0.3.0"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
