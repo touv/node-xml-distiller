@@ -15,7 +15,7 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b');
+          assert.equal(d[0], '/<a/<b');
           assert.equal(d[1], '1');
         }
         else if (i === 2) {
@@ -23,7 +23,7 @@ describe('cXML ', function () {
           assert.equal(d[1], '2');
         }
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/0a.xml")).pipe(stream)
@@ -35,7 +35,7 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b');
+          assert.equal(d[0], '/<a/<b');
           assert.equal(d[1], '1');
         }
         else if (i === 2) {
@@ -48,7 +48,7 @@ describe('cXML ', function () {
         }
 
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/0b.xml")).pipe(stream)
@@ -60,7 +60,7 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b/.c');
+          assert.equal(d[0], '/<a/<b/<c');
           assert.equal(d[1], '1');
         }
         else if (i === 2) {
@@ -72,11 +72,11 @@ describe('cXML ', function () {
           assert.equal(d[1], '3');
         }
         else if (i === 4) {
-          assert.equal(d[0], '/.a/<b/.c');
+          assert.equal(d[0], '/.a/<b/<c');
           assert.equal(d[1], '4');
         }
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/0c.xml")).pipe(stream)
@@ -88,7 +88,7 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b');
+          assert.equal(d[0], '/<a/<b');
           assert.equal(d[1], 'x1');
         }
         else if (i === 2) {
@@ -100,7 +100,7 @@ describe('cXML ', function () {
           assert.equal(d[1], 'x3');
         }
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/1a.xml")).pipe(stream)
@@ -113,11 +113,11 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b');
+          assert.equal(d[0], '/<a/<b');
           assert.equal(d[1], 'y1');
         }
         else if (i === 2) {
-          assert.equal(d[0], '/.a/<b/.c');
+          assert.equal(d[0], '/.a/<b/<c');
           assert.equal(d[1], 'y2');
         }
         else if (i === 3) {
@@ -126,7 +126,7 @@ describe('cXML ', function () {
         }
 
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/1b.xml")).pipe(stream)
@@ -139,7 +139,7 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b');
+          assert.equal(d[0], '/<a/<b');
           assert.equal(d[1], 'x1');
         }
         else if (i === 2) {
@@ -155,7 +155,7 @@ describe('cXML ', function () {
           assert.equal(d[1], 'y1');
         }
         else if (i === 5) {
-          assert.equal(d[0], '/.a/<b/.c');
+          assert.equal(d[0], '/.a/<b/<c');
           assert.equal(d[1], 'y2');
         }
         else if (i === 6) {
@@ -164,7 +164,7 @@ describe('cXML ', function () {
         }
 
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/1c.xml")).pipe(stream)
@@ -177,11 +177,11 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b/.c/@z');
+          assert.equal(d[0], '/<a/<b/<c/@z');
           assert.equal(d[1], '1');
         }
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/2a.xml")).pipe(stream)
@@ -194,7 +194,7 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b/.c/@z');
+          assert.equal(d[0], '/<a/<b/<c/@z');
           assert.equal(d[1], '1');
         }
         else if (i === 2) {
@@ -202,7 +202,7 @@ describe('cXML ', function () {
           assert.equal(d[1], '2');
         }
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/2b.xml")).pipe(stream)
@@ -216,7 +216,7 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b/.c/@z');
+          assert.equal(d[0], '/<a/<b/<c/@z');
           assert.equal(d[1], '1');
         }
         else if (i === 2) {
@@ -228,7 +228,7 @@ describe('cXML ', function () {
           assert.equal(d[1], '2');
         }
         else if (i === 4) {
-          assert.equal(d[0], '/.a/.b/<c');
+          assert.equal(d[0], '/.a/.b/.c');
           assert.equal(d[1], '5');
         }
         else if (i === 5) {
@@ -240,7 +240,7 @@ describe('cXML ', function () {
           assert.equal(d[1], '3');
         }
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/2c.xml")).pipe(stream)
@@ -253,7 +253,7 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b/.c/@z');
+          assert.equal(d[0], '/<a/<b/<c/@z');
           assert.equal(d[1], '1');
         }
         else if (i === 2) {
@@ -265,7 +265,7 @@ describe('cXML ', function () {
           assert.equal(d[1], '3');
         }
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/2d.xml")).pipe(stream)
@@ -278,23 +278,23 @@ describe('cXML ', function () {
       stream.on('data', function(d) {
         i++;
         if (i === 1) {
-          assert.equal(d[0], '/.a/.b/.c');
+          assert.equal(d[0], '/<a/<b/<c');
           assert.equal(d[1], '1');
         }
         else if (i === 2) {
-          assert.equal(d[0], '/.a/.b/.d');
+          assert.equal(d[0], '/.a/.b/<d');
           assert.equal(d[1], '2');
         }
         else if (i === 3) {
-          assert.equal(d[0], '/.a/<b/.c');
+          assert.equal(d[0], '/.a/<b/<c');
           assert.equal(d[1], '3');
         }
         else if (i === 4) {
-          assert.equal(d[0], '/.a/.b/.d');
+          assert.equal(d[0], '/.a/.b/<d');
           assert.equal(d[1], '4');
         }
       });
-      stream.on('end', function() {
+      stream.on('finish', function() {
         done();
       });
       fs.createReadStream(path.resolve(__dirname, "../dataset/3a.xml")).pipe(stream)
